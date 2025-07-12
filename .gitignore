@@ -35,37 +35,8 @@ dist/
 build/
 .eggs/
 
-# === Data & Models (optional: comment/uncomment as needed) ===
-data/
-datasets/
-*.csv
-*.tsv
-*.parquet
-*.h5
-*.hdf5
-*.pkl
-*.joblib
-*.npz
-*.npy
-
-# === ML experiment outputs ===
-runs/
-checkpoints/
-models/
-outputs/
-
 # === Environment & config ===
 *.env
 secrets.json
 config.yaml
 config.yml
-
-# === Coverage / testing ===
-coverage/
-htmlcov/
-*.cover
-*.py,cover
-.cache/
-nosetests.xml
-coverage.xml
-*.lcov
