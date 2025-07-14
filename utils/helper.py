@@ -102,17 +102,26 @@ def compress_ecg_data(
 
     return compressed_data
 
-def compute_compression_metrics(compr_list_all_dp, compr_list):
-   
-    maes = []
-    mses = []
-    for arr1, arr2 in zip(compr_list_all_dp, compr_list):
-        mae = mean_absolute_error(arr1, arr2)
-        mse = mean_squared_error(arr1, arr2)
+def compute_compression_metrics(X_train_raw, X_train_lossy, compr_size):
+
+    maes, mses = [], []
+    for signal, lossy_signal in zip(X_train_raw, X_train_lossy):
+
+        final_points = int(len(signal) * compr_size)
+        splits = np.array_split(signal, final_points)
+
+        result = []
+        for split, val in zip(splits, lossy_signal):
+            k = [val] * len(split)
+            result += k
+
+        reconstructed = np.array(result)
+        mae = mean_absolute_error(signal, reconstructed)
+        mse = mean_squared_error(signal, reconstructed)
         maes.append(mae)
         mses.append(mse)
-
-    return np.mean(maes).item(), np.mean(mses).item()
+    
+    return round(np.mean(maes).item(), 5), round(np.mean(mses).item(), 5)
 
 def normalize_data(sequences, scaler_kind="standard"):
     concat = np.concatenate(sequences).reshape(-1, 1)
